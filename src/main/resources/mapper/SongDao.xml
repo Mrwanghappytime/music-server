@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrwang.happytime.musicserver.dao.SongDao">
+    <sql id="SongDetail">
+        <if test="singerId != null">
+            and singer_id= #{singerId}
+        </if>
+        <if test="name != null">
+            and name= #{name}
+        </if>
+        <if test="id != null">
+            and id= #{id}
+        </if>
+    </sql>
+    <select id="selectAll" resultType="Song">
+        select singer_id as  singerId ,create_time as createTime,lyric as lyric,name as name,update_time as updateTime,id as id,pic as pic,introduction as introduction,url as url
+        from song
+    </select>
+    <select id="selectSongs" resultType="Song">
+        select  singer_id as  singerId ,create_time as createTime,lyric as lyric,name as name,update_time as updateTime,id as id,pic as pic,introduction as introduction,url as url
+        from song where 1 = 1
+        <include refid="SongDetail"></include>
+    </select>
+    <select id="selectSongsBySingerName" resultType="Song">
+        select a.singer_id as singerId,a.create_time as createTime,a.lyric as lyric,a.name as name,a.update_time as updateTime,a.id as id,a.pic as pic,a.introduction as introduction,a.url as url
+        from song as a left outer join singer as b on a.singer_id = b.id where 1 = 1 and b.name = #{name}
+    </select>
+    <delete id="delete" parameterType="Song">
+        delete from song where id = #{id};
+    </delete>
+    <update id="update" parameterType="Song">
+        update song set
+        <trim suffixOverrides=",">
+            <if test="singerId != null">
+                singer_id= #{singerId} ,
+            </if>
+            <if test="createTime != null">
+                create_time= #{createTime} ,
+            </if>
+            <if test="lyric != null">
+                lyric= #{lyric} ,
+            </if>
+            <if test="name != null">
+                name= #{name} ,
+            </if>
+            <if test="updateTime != null">
+                update_time= #{updateTime} ,
+            </if>
+            <if test="pic != null">
+                pic= #{pic} ,
+            </if>
+            <if test="introduction != null">
+                introduction= #{introduction} ,
+            </if>
+            <if test="url != null">
+                url= #{url}
+            </if>
+        </trim> where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrwang.happytime.musicserver.dao.RankDao">
+    <insert id="insert" parameterType="Rank">
+        insert into music.rank(score,songListId,consumerId) values(#{score},#{songListId},#{consumerId})
+    </insert>
+    <select id="getAvgRank"  parameterType="Rank" resultType="java.lang.Integer">
+        select avg(score) as grade from music.rank where songListId = #{songListId}
+    </select>
+</mapper>

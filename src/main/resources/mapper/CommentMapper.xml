@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrwang.happytime.musicserver.dao.CommentDao">
+    <sql id="values">id,
+          user_id as userId,
+          song_id as songId,
+          song_list_id as songListId,
+          content,
+          create_time as createTime,
+          type,
+          up</sql>
+    <select id="getAll" resultType="Comment">
+        select <include refid="values"></include>
+           from comment
+    </select>
+    <select id="getCommentsByComment" resultType="Comment">
+        select <include refid="values"/>
+          from comment where 1 = 1
+        <if test="songId != null">
+            and song_id = #{songId}
+        </if>
+        <if test="songListId != null">
+            and song_list_id = #{songListId}
+        </if>
+    </select>
+    <insert id="insert" parameterType="Comment">
+        insert into comment(user_id,song_id,song_list_id,content,type,create_time) values(#{userId},#{songId},#{songListId},#{content},#{type},current_timestamp())
+    </insert>
+    <update id="updateComment" parameterType="Comment">
+        update comment set
+        <trim   suffixOverrides=",">
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="songId != null">
+                song_id = #{songId},
+            </if>
+            <if test="songListId != null">
+                song_list_id = #{songListId},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="up != null">
+                up = #{up},
+            </if>
+            <if test="type != null">
+                type = #{type}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteComment" parameterType="Comment">
+      delete from comment where id = #{id}
+    </delete>
+</mapper>

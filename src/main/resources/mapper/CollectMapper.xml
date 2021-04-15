@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrwang.happytime.musicserver.dao.CollectDao">
+    <!--<resultMap id="collectMap" type="Collect">-->
+        <!--<result property="createTime" column="create_time" jdbcType="DATETIME" javaType="Date"></result>-->
+    <!--</resultMap>-->
+    <select id="getAll" resultType="Collect">
+        select id , user_id as userId,type,song_id as songId,song_list_id as songListId,create_time as createTime from collect
+    </select>
+    <select id="getCollects" resultType="Collect" parameterType="Collect">
+        select id , user_id as userId,type,song_id as songId,song_list_id as songListId,create_time as createTime from collect where 1 = 1
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+    </select>
+    <delete id="delete" parameterType="Collect">
+        delete from collect where 1 = 1
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="songId != null">
+            and song_id = #{songId}
+        </if>
+    </delete>
+    <insert id="addCollect" parameterType="Collect">
+        insert into collect(user_id,type,song_id,song_list_id,create_time) values(#{userId},#{type},#{songId},#{songListId},current_timestamp())
+    </insert>
+    <update id="update" parameterType="Collect">
+        update collect set
+        <trim  suffixOverrides=",">
+          <if test="type != null">
+              type = #{type},
+          </if>
+          <if test="userId != null">
+              user_id = #{userId},
+          </if>
+          <if test="songId != null">
+              song_id = #{songId}
+          </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

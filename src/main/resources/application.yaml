@@ -1,0 +1,90 @@
+#配置mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.mrwang.happytime.musicserver.po
+  config-location: classpath:mybatis-config.xml
+
+server:
+  port: 8888
+  servlet:
+    session:
+      persistent: false
+
+#配置数据源
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/music?serverTimezone=Asia/Shanghai&useSSL=FALSE&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  redis:
+    timeout: 10000
+    host: 192.168.171.137
+    port: 6379
+
+
+#配置静态资源路径，用于service层访问，对应的配置类为configuration包下的FilePathConfiguration类,对应的路径为classpath:static路径
+music:
+  server:
+    static:
+      path:
+        path: F:/project/music-server/src/main/resources/static
+    #配置shiro
+    shiro:
+      authentication-strategy-class-name: org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy
+      hash-algorithm-name: MD5
+      hash-iterations: 1024
+      filter-map:
+                "[/]": anon
+                "[/admin/login/status]": anon
+                "[/collection/**]": anon
+                "[/comment/delete]": roles["admin"]
+                "[/comment/update]": roles["admin"]
+                "[/comment/like]": authc
+                "[/comment/add]": authc
+                "[/comment/**]": anon
+                "[/user/add]": roles["admin"]
+                "[/login/status]": anon
+                "[/user]": roles["admin"]
+                "[/user/detail]": perms["user"]
+                "[/user/delete]": roles["admin"]
+                "[/user/update]": perms["user"]
+                "[/user/avatar/update]": anon
+                "[/listSong/add]": roles["admin"]
+                "[/listSong/delete]": roles["admin"]
+                "[/listSong/**]": anon
+                "[/rank]": authc
+                "[/singer/add]": roles["admin"]
+                "[/singer/delete]": roles["admin"]
+                "[/singer/update]": roles["admin"]
+                "[/singer/avatar/update]": anon
+                "[/singer/**]": anon
+                "[/song/add]": roles["admin"]
+                "[/song/delete]": roles["admin"]
+                "[/song/img/update]": anon
+                "[/song/url/update]": anon
+                "[/song/**/update]": roles["admin"]
+                "[/song/singer/detail]": authc
+                "[/songList/add]": authc
+                "[/songList/delete]": roles["admin"]
+                "[/songList/img/update]": anon
+                "[/songList/**/update]": roles["admin"]
+                "[/**]": anon
+                #文件上传相关URL全部取消了认证，因为存在无法携带cookie的问题，主要前端出现了一定的问题，而我不会改前端代码。
+logging:
+  level:
+    com: debug
+  file:
+    path: F:/project/music-server/src/main/resources/log/music-server-log
+#配置监控相关内容
+management:
+  endpoints:
+    enabled-by-default: true #默认开启所有端点监控
+    web:
+      exposure:
+        include: '*'

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrwang.happytime.musicserver.dao.SingerDao">
+    <sql id="singerDetail">
+       sex as sex,name as name,birth as birth,location as location,id as id,pic as pic,introduction as introduction
+    </sql>
+    <sql id="selectIf">
+        <if test="sex != null">
+            and sex= #{sex}
+        </if>
+        <if test="name != null">
+            and name= #{name}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="Singer">
+        insert into singer(sex,name,birth,location,id,pic,introduction) values(#{sex},#{name},#{birth},#{location},#{id},#{pic},#{introduction})
+    </insert>
+    <select id="selectAll" resultType="Singer">
+        select <include refid="singerDetail"/> from singer
+    </select>
+    <select id="selectSinger" parameterType="Singer" resultType="Singer">
+        select <include refid="singerDetail"/> from singer where 1 = 1 <include refid="selectIf"></include>
+    </select>
+    <delete id="delete" parameterType="Singer">
+        delete from singer where id = #{id}
+    </delete>
+    <update id="update" parameterType="Singer">
+        update singer set
+        <trim suffixOverrides=",">
+            <if test="sex != null">
+                sex= #{sex} ,
+            </if>
+            <if test="name != null">
+                name= #{name} ,
+            </if>
+            <if test="birth != null">
+                birth= #{birth} ,
+            </if>
+            <if test="location != null">
+                location= #{location} ,
+            </if>
+            <if test="pic != null">
+                pic= #{pic} ,
+            </if>
+            <if test="introduction != null">
+                introduction= #{introduction}
+            </if>
+        </trim> where id = #{id}
+    </update>
+</mapper>

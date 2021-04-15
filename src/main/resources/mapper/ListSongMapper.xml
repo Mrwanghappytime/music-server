@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrwang.happytime.musicserver.dao.ListSongDao">
+    <select id="selectAll" resultType="ListSong">
+        select id , song_id as songId ,song_list_id as songListId from list_song
+    </select>
+    <select id="selectByListSong" resultType="ListSong" parameterType="ListSong">
+        select id , song_id as songId ,song_list_id as songListId from list_song where 1 = 1
+        <if test="songId != null">
+            and song_id = #{songId}
+        </if>
+        <if test="songListId">
+            and song_list_id = #{songListId}
+        </if>
+    </select>
+    <insert id="insert" parameterType="ListSong">
+        insert into list_song(song_id,song_list_id) values (#{songId},#{song_list_id})
+    </insert>
+    <delete id="delete" parameterType="ListSong">
+        delete from list_song where id = #{id}
+    </delete>
+</mapper>

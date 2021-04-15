@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrwang.happytime.musicserver.dao.ConsumerDao">
+    <sql id="consumerDetail">
+        id,username,password,sex,phone_num as phone_num,email,birth,introduction,location,avator,create_time as createTime,update_time as updateTime
+    </sql>
+    <sql id="consumerInsertDetail">
+        username,password,sex,phone_num,email,birth,introduction,location,avator,create_time
+    </sql>
+    <select id="selectAll" resultType="Consumer">
+        select
+        <include refid="consumerDetail"></include>
+        from consumer
+    </select>
+    <select id="selectConsumerByCommer" parameterType="Consumer" resultType="Consumer">
+        select
+        <include refid="consumerDetail"/>
+        from consumer where 1=1
+        <trim >
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="password != null">
+                and password = #{password}
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </trim>
+    </select>
+    <insert id="insetConsumer" parameterType="Consumer">
+        insert into consumer(<include refid="consumerInsertDetail"></include>) values (#{username},#{password},#{sex},#{phone_num},#{email},#{birth},#{introduction},#{location},#{avator},current_timestamp())
+    </insert>
+    <delete id="deleteConsumer" parameterType="Consumer">
+        delete from consumer where id = #{id}
+    </delete>
+    <update id="updateConsumer" parameterType="Consumer">
+        update consumer set
+        <trim suffixOverrides=",">
+            <if test="password != null">
+                password= #{password} ,
+            </if>
+            <if test="sex != null">
+                sex= #{sex} ,
+            </if>
+            <if test="birth != null">
+                birth= #{birth} ,
+            </if>
+            <if test="avator != null">
+                avator= #{avator} ,
+            </if>
+            <if test="phone_num != null">
+                phone_num= #{phone_num} ,
+            </if>
+            <if test="location != null">
+                location= #{location} ,
+            </if>
+            <if test="email != null">
+                email= #{email} ,
+            </if>
+            <if test="introduction != null">
+                introduction= #{introduction} ,
+            </if>
+            <if test="username != null">
+                username= #{username}
+            </if>
+        </trim> where id = #{id}
+    </update>
+
+
+</mapper>
