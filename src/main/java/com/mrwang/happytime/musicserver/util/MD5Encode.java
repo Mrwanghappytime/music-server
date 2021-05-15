@@ -12,5 +12,9 @@ public class MD5Encode {
         return obj.toHex();
     }
 
+    public static void main(String[] args) {
+        System.out.println(encode("admin","123"));
+    }
+
 
 }

@@ -12,6 +12,10 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 @Transactional
@@ -24,6 +28,9 @@ public class AdminServiceImp implements AdminService {
             if(!subject.isAuthenticated()){
                 UsernamePasswordToken usernamePasswordToken = new LoginTypeUsernamePasswordToken(admin.getName(),admin.getPassword(),"admin");
                 subject.login(usernamePasswordToken);
+                ServletRequestAttributes requestAttributes = (ServletRequestAttributes) (RequestContextHolder.getRequestAttributes());
+                HttpSession session = requestAttributes.getRequest().getSession();
+                session.setAttribute("admin",admin);
                 return Result.getResult(1,"登录成功");
             }
             return Result.getResult(1,"登录成功");

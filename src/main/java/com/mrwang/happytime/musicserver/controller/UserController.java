@@ -55,8 +55,7 @@ public class UserController {
     @PostMapping("/avatar/update")
     //@ParameterCheck("id")
     public Result  avatarUpdate(Consumer consumer,@RequestParam("file") MultipartFile file){
-        JSONObject jsonpObject = new JSONObject();
-        return consumerService.avatarUpdate(file,consumer,jsonpObject);
+        return consumerService.avatarUpdate(file,consumer);
 
     }
 }

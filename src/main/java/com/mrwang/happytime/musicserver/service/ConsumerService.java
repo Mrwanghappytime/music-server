@@ -3,7 +3,6 @@ package com.mrwang.happytime.musicserver.service;
 import com.mrwang.happytime.musicserver.po.Consumer;
 import com.mrwang.happytime.musicserver.vo.Result;
 import com.mrwang.happytime.musicserver.vo.ResultLogin;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -22,5 +21,5 @@ public interface ConsumerService {
 
     Result updateConsumer(Consumer consumer);
 
-    Result avatarUpdate(MultipartFile file, Consumer consumer, JSONObject jsonpObject);
+    Result avatarUpdate(MultipartFile file, Consumer consumer);
 }

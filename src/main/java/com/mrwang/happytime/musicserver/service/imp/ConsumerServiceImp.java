@@ -115,7 +115,7 @@ public class ConsumerServiceImp implements ConsumerService {
     }
 
     @Override
-    public Result avatarUpdate(MultipartFile file, Consumer consumer, JSONObject jsonpObject) {
+    public Result avatarUpdate(MultipartFile file, Consumer consumer) {
         try{
             String path = null;
             String avatar = null;

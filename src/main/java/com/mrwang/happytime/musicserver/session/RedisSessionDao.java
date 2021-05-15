@@ -59,6 +59,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
         if(session == null || session.getId() == null){
             return;
         }
+        System.out.println("删除session" + session.getId());
         redisManager.del(sessionPrefix + session.getId());
     }
 

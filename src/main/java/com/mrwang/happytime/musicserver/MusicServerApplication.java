@@ -27,10 +27,10 @@ public class MusicServerApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(MusicServerApplication.class, args);
         //修改admin和consumer的密码，只需在第一次启动时打开注释,但是需要先记住数据库中的密码
-//        AdminDao adminDao = run.getBean("adminDao", AdminDao.class);
+       //AdminDao adminDao = run.getBean("adminDao", AdminDao.class);
 //        ConsumerDao consumerDao = run.getBean("consumerDao", ConsumerDao.class);
-//        updateAdminPassword(adminDao);
-//        updateConsumerPassword(consumerDao);
+        //updateAdminPassword(adminDao);
+        //        updateConsumerPassword(consumerDao);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.mrwang.happytime.musicserver.configuration;
 
 import com.mrwang.happytime.musicserver.filter.ShiroCorsFilter;
 import com.mrwang.happytime.musicserver.propeties.ShiroProperties;
+import com.mrwang.happytime.musicserver.session.RedisSessionListener;
 import com.mrwang.happytime.musicserver.shiro.auth.MusicModularRealmAuthenticator;
 import com.mrwang.happytime.musicserver.shiro.realm.AdminRealm;
 import com.mrwang.happytime.musicserver.shiro.realm.ConsumerRealm;
@@ -12,6 +13,7 @@ import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.authz.ModularRealmAuthorizer;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -98,8 +100,11 @@ public class ShiroConfiguration {
         //DefaultWebSecurityManager sessionManager = new DefaultWebSecurityManager();
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(sessionDAO);
-        sessionManager.setGlobalSessionTimeout(30*60);
+        //sessionManager.setGlobalSessionTimeout(1000L);
         sessionManager.setDeleteInvalidSessions(true);
+        ArrayList<SessionListener> redisSessionListeners = new ArrayList<>();
+        redisSessionListeners.add(new RedisSessionListener());
+        sessionManager.setSessionListeners(redisSessionListeners);
         return sessionManager;
     }
 
